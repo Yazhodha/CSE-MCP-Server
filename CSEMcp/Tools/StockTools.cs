@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using ModelContextProtocol.Server;
-using SharesMCP.Services;
+using CSEMcp.Infrastructure.ExternalServices;
 
-namespace SharesMCP.Tools;
+namespace CSEMcp.Tools;
 
 [McpServerToolType]
 public class StockTools

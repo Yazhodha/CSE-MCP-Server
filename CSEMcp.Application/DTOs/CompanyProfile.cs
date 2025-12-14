@@ -1,4 +1,4 @@
-namespace SharesMCP.Models;
+namespace CSEMcp.Application.DTOs;
 
 public class CompanyProfile
 {

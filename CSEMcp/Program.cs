@@ -1,4 +1,4 @@
-using SharesMCP.Services;
+using CSEMcp.Infrastructure.ExternalServices;
 
 var builder = WebApplication.CreateBuilder(args);
 

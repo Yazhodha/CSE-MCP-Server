@@ -1,7 +1,9 @@
 using System.Text.Json;
-using SharesMCP.Models;
+using CSEMcp.Application.DTOs;
+using CSEMcp.Domain.ValueObjects;
+using Microsoft.Extensions.Logging;
 
-namespace SharesMCP.Services;
+namespace CSEMcp.Infrastructure.ExternalServices;
 
 public class CseDataService
 {
@@ -15,7 +17,7 @@ public class CseDataService
 
         // Configure HttpClient with CSE base URL and headers
         _httpClient.BaseAddress = new Uri("https://www.cse.lk/");
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; SharesMCP/1.0)");
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; CSEMcp/1.0)");
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
     }
 
@@ -23,7 +25,7 @@ public class CseDataService
     {
         try
         {
-            // Convert symbol from .CM format to .N0000 format if needed
+            // Convert symbol to CSE format (.N0000 for voting, .X0000 for non-voting)
             var cseSymbol = ConvertToCseSymbol(symbol);
 
             _logger.LogInformation("Fetching quote for CSE symbol: {Symbol}", cseSymbol);
@@ -81,25 +83,15 @@ public class CseDataService
     }
 
     /// <summary>
-    /// Converts symbol to CSE format (.N0000) from various input formats
+    /// Converts symbol to CSE format using the StockSymbol value object
+    /// Supports: JKH, JKH.N0000 (voting), TESS.X0000 (non-voting)
     /// </summary>
     private string ConvertToCseSymbol(string symbol)
     {
-        // If already in CSE format (e.g., JKH.N0000), return as is
-        if (symbol.Contains(".N"))
-        {
-            return symbol;
-        }
-
-        // If in .CM format (e.g., JKH.CM), convert to CSE format
-        if (symbol.EndsWith(".CM", StringComparison.OrdinalIgnoreCase))
-        {
-            var ticker = symbol.Substring(0, symbol.Length - 3); // Remove .CM
-            return $"{ticker}.N0000";
-        }
-
-        // If just ticker (e.g., JKH), add .N0000 suffix
-        return $"{symbol}.N0000";
+        // Use the StockSymbol value object for conversion
+        // It handles .N0000 (voting) and .X0000 (non-voting) formats
+        var stockSymbol = StockSymbol.Create(symbol);
+        return stockSymbol.Value;
     }
 
     private static string FormatMarketCap(double marketCap)
