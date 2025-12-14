@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace CSEMcp.Models;
+namespace CSEMcp.Application.DTOs;
 
 public class Trade
 {

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using ModelContextProtocol.Server;
-using CSEMcp.Services;
+using CSEMcp.Infrastructure.ExternalServices;
 
 namespace CSEMcp.Tools;
 
