@@ -1,7 +1,7 @@
 using System.Text.Json;
-using SharesMCP.Models;
+using CSEMcp.Models;
 
-namespace SharesMCP.Services;
+namespace CSEMcp.Services;
 
 public class CseDataService
 {
@@ -15,7 +15,7 @@ public class CseDataService
 
         // Configure HttpClient with CSE base URL and headers
         _httpClient.BaseAddress = new Uri("https://www.cse.lk/");
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; SharesMCP/1.0)");
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; CSEMcp/1.0)");
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
     }
 
