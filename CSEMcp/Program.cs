@@ -17,6 +17,9 @@ builder.Services.AddMcpServer()
 
 var app = builder.Build();
 
+// Health check for container orchestration
+app.MapGet("/health", () => Results.Ok("Healthy"));
+
 // Map MCP endpoint at root
 app.MapMcp();
 
